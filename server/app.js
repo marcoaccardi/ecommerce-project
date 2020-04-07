@@ -1,11 +1,13 @@
 const express = require("express");
 const app = express();
-
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const userRoutes = require("./routes/user");
 const mongoose = require("mongoose");
+const userRoutes = require("./routes/user");
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -19,10 +21,14 @@ mongoose.connection.on("error", (err) => {
   console.log(`DB connection error : ${err.message}`);
 });
 
-app.use(userRoutes);
+// middlewares
+app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(cookieParser());
+//routes middleware
+app.use("/api", userRoutes);
 
 const port = process.env.PORT || 8000;
-
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

@@ -8,7 +8,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const mongoose = require("mongoose");
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/auth");
 
 mongoose
   .connect(process.env.DATABASE, {

@@ -8,7 +8,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const mongoose = require("mongoose");
-const userRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
 //routes middleware
+app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 
 const port = process.env.PORT || 8000;

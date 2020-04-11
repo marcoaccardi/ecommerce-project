@@ -6,10 +6,10 @@ const cookieParser = require("cookie-parser");
 const expressValidator = require("express-validator");
 const dotenv = require("dotenv");
 dotenv.config();
-
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
 
 mongoose
   .connect(process.env.DATABASE, {
@@ -31,6 +31,7 @@ app.use(expressValidator());
 //routes middleware
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", categoryRoutes);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

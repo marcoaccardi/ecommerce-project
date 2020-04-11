@@ -1,8 +1,8 @@
 const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
-const errorHandler = require("../helpers/dbErrorHandler");
 const Product = require("../models/product");
+const { errorHandler } = require("../helpers/dbErrorHandler");
 
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
@@ -21,9 +21,7 @@ exports.create = (req, res) => {
     }
     product.save((err, result) => {
       if (err) {
-        return res.status(400).json({
-          error: errorHandler(err),
-        });
+        return res.status(400).json({ error: errorHandler(err) });
       }
     });
   });

@@ -4,6 +4,24 @@ const fs = require("fs");
 const Product = require("../models/product");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
+exports.productById = (req, res, next) => {
+  Product.findById(id).exec((err, product) => {
+    if (err || !product) {
+      return res.status(400).json({
+        error: "Product not found",
+      });
+    }
+    req.product = product;
+    next();
+  });
+};
+
+exports.read = (req, res) => {
+  req.product.photo = undefined;
+  console.log("REQ", req.product);
+  return res.json(req.product);
+};
+
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -13,7 +31,7 @@ exports.create = (req, res) => {
         error: "Image could not be uploaded",
       });
     }
-    //check for all fields
+
     const { name, description, price, category, quantity, shipping } = fields;
     if (
       !name ||
@@ -30,7 +48,6 @@ exports.create = (req, res) => {
     let product = new Product(fields);
 
     if (files.photo) {
-      console.log("FILES PHOTO", files.photo);
       if (files.photo.size > 1000000) {
         return res.status(400).json({
           error: "Image should be less then 1MB in size",

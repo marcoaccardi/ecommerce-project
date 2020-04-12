@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Layout } from "../core/Layout";
+import { API } from "../config";
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -16,6 +17,30 @@ const Signup = () => {
       error: false,
       [name]: event.target.value,
     });
+  };
+  const { name, email, password } = values;
+
+  const signup = (user) => {
+    console.log(name, email, password);
+    fetch(`${API}/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // console.log(user);
+  };
+  const clickSubmit = (event) => {
+    event.preventDefault();
+    signup({ name, email, password });
   };
 
   const signUpForm = () => (
@@ -44,7 +69,9 @@ const Signup = () => {
           className="form-control"
         />
       </div>
-      <button className="btn btn-primary">Submit</button>
+      <button className="btn btn-primary" onClick={clickSubmit}>
+        Submit
+      </button>
     </form>
   );
   return (
@@ -55,7 +82,7 @@ const Signup = () => {
         className="container col-md-8 offset-md-2"
       >
         {signUpForm()}
-        {console.log(values)}
+        {JSON.stringify(values)}
       </Layout>
     </div>
   );

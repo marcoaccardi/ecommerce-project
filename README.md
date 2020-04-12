@@ -2,11 +2,13 @@
 
 ## start the server
 
-```cd ./server
+```
+cd ./server
 
 ```
 
-```npm start
+```
+npm start
 
 ```
 

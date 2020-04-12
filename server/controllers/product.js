@@ -216,10 +216,10 @@ exports.listBySearch = (req, res) => {
 };
 
 exports.photo = (req, res, next) => {
-  // let photo = req.product.photo;
-  if (req.product.photo.data) {
-    res.set("Content-Type", req.product.photo.contentType);
-    return res.send(req.product.photo.data);
+  let photo = req.product.photo;
+  if (photo.data) {
+    res.set("Content-Type", photo.contentType);
+    return res.send(photo.data);
   }
   next();
 };

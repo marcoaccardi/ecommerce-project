@@ -5,7 +5,7 @@ exports.categoryById = (req, res, next, id) => {
   Category.findById(id).exec((err, category) => {
     if (err || !category) {
       return res.status(400).json({
-        error: "Categoy does not exist",
+        error: "Category does not exist",
       });
     }
     req.category = category;

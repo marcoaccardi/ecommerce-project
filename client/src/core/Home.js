@@ -1,4 +1,8 @@
 import React from "react";
-const Home = () => <div>home</div>;
+import { Layout } from "./Layout";
+
+const Home = () => (
+  <Layout title="Home Page" description="Node React e-commerce App" />
+);
 
 export { Home };

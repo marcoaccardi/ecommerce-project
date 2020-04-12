@@ -1,4 +1,12 @@
 import React from "react";
-const Signin = () => <div>signin</div>;
+import { Layout } from "../core/Layout";
+
+const Signin = () => (
+  <div>
+    <Layout title="Signin" description="Signin to Node React e-commerce App">
+      ...
+    </Layout>
+  </div>
+);
 
 export { Signin };

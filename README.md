@@ -1,1 +1,5 @@
-#READ ME
+# READ ME
+
+## start the server
+
+`nodemon app.js`

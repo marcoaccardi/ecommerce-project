@@ -2,4 +2,12 @@
 
 ## start the server
 
-`nodemon app.js`
+```cd ./server
+
+```
+
+```npm start
+
+```
+
+## start the client

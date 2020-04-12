@@ -4,12 +4,13 @@
 
 ```
 cd ./server
-
 ```
 
 ```
 npm start
-
 ```
 
 ## start the client
+```
+npm start
+```

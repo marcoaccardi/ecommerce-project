@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Layout } from "../core/Layout";
 import { API } from "../config";
 
@@ -18,11 +19,11 @@ const Signup = () => {
       [name]: event.target.value,
     });
   };
-  const { name, email, password } = values;
+  const { name, email, password, success, error } = values;
 
   const signup = (user) => {
-    console.log(name, email, password);
-    fetch(`${API}/signup`, {
+    console.log(user);
+    return fetch(`${API}/signup`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -36,11 +37,28 @@ const Signup = () => {
       .catch((err) => {
         console.log(err);
       });
-    // console.log(user);
   };
   const clickSubmit = (event) => {
     event.preventDefault();
-    signup({ name, email, password });
+    setValues({ ...values, error: false });
+    signup({ name, email, password }).then((data) => {
+      if (data.error) {
+        setValues({
+          ...values,
+          error: data.error,
+          success: false,
+        });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          email: "",
+          password: "",
+          error: "",
+          success: true,
+        });
+      }
+    });
   };
 
   const signUpForm = () => (
@@ -51,6 +69,7 @@ const Signup = () => {
           onChange={handleChange("name")}
           type="text"
           className="form-control"
+          value={name}
         />
       </div>
       <div className="form-group">
@@ -59,6 +78,7 @@ const Signup = () => {
           onChange={handleChange("email")}
           type="email"
           className="form-control"
+          value={email}
         />
       </div>
       <div className="form-group">
@@ -67,6 +87,7 @@ const Signup = () => {
           onChange={handleChange("password")}
           type="password"
           className="form-control"
+          value={password}
         />
       </div>
       <button className="btn btn-primary" onClick={clickSubmit}>
@@ -74,6 +95,25 @@ const Signup = () => {
       </button>
     </form>
   );
+
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: success ? "" : "none" }}
+    >
+      New account is created. Please <Link to="/signin">Signin</Link>
+    </div>
+  );
+
   return (
     <div>
       <Layout
@@ -81,8 +121,9 @@ const Signup = () => {
         description="Signup to Node React e-commerce App"
         className="container col-md-8 offset-md-2"
       >
+        {showSuccess()}
+        {showError()}
         {signUpForm()}
-        {JSON.stringify(values)}
       </Layout>
     </div>
   );

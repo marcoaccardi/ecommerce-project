@@ -57,7 +57,19 @@ const signout = (next) => {
   }
 };
 
+const isAuthenticated = () => {
+  if (typeof window == "undefined") {
+    return false;
+  }
+  if (localStorage.getItem("jsonWebToken")) {
+    return JSON.parse(localStorage.getItem("jsonWebToken"));
+  } else {
+    return false;
+  }
+};
+
 export { signup };
 export { signin };
 export { authenticate };
 export { signout };
+export { isAuthenticated };

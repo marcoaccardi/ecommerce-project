@@ -5,7 +5,7 @@ import { isAuthenticated } from "../auth";
 const Dashboard = () => {
   const {
     user: { _id, name, email, role },
-  } = isAuthenticated;
+  } = isAuthenticated();
 
   return (
     <Layout
@@ -19,7 +19,7 @@ const Dashboard = () => {
           <li className="list-group-item">{name}</li>
           <li className="list-group-item">{email}</li>
           <li className="list-group-item">
-            {role === 1 ? "Admin" : "Registered user"}
+            {role === 1 ? "Admin" : "Registered User"}
           </li>
         </ul>
       </div>

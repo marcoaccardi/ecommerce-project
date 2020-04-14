@@ -43,6 +43,21 @@ const authenticate = (data, next) => {
   next();
 };
 
+const signout = (next) => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("jsonWebToken");
+    next();
+    return fetch(`${API}/signout`, {
+      method: "GET",
+    })
+      .then((response) => {
+        console.log("signout", response);
+      })
+      .catch((err) => console.log(err));
+  }
+};
+
 export { signup };
 export { signin };
 export { authenticate };
+export { signout };

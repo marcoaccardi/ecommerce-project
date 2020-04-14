@@ -12,6 +12,8 @@ const Signup = () => {
     success: false,
   });
 
+  const { name, email, password, success, error } = values;
+
   const handleChange = (name) => (event) => {
     setValues({
       ...values,
@@ -19,7 +21,6 @@ const Signup = () => {
       [name]: event.target.value,
     });
   };
-  const { name, email, password, success, error } = values;
 
   const clickSubmit = (event) => {
     event.preventDefault();

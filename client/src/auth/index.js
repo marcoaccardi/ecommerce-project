@@ -36,5 +36,13 @@ const signin = (user) => {
     });
 };
 
+const authenticate = (data, next) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("jsonWebToken", JSON.stringify(data));
+  }
+  next();
+};
+
 export { signup };
 export { signin };
+export { authenticate };

@@ -17,7 +17,7 @@ const AddProduct = () => {
     loading: false,
     error: "",
     createdProduct: "",
-    redirectProfile: false,
+    redirectToProfile: false,
     formData: "",
   });
 
@@ -30,15 +30,14 @@ const AddProduct = () => {
     category,
     shipping,
     quantity,
-    photo,
     loading,
     error,
     createdProduct,
-    redirectProfile,
+    redirectToProfile,
     formData,
   } = values;
 
-  //load categories and set form data
+  // load categories and set form data
   const init = () => {
     getCategories().then((data) => {
       if (data.error) {
@@ -56,7 +55,6 @@ const AddProduct = () => {
     });
   };
 
-  // setup formData webAPI
   useEffect(() => {
     init();
   }, []);
@@ -93,7 +91,7 @@ const AddProduct = () => {
           price: "",
           quantity: "",
           loading: false,
-          createProduct: data.name,
+          createdProduct: data.name,
         });
       }
     });
@@ -102,8 +100,7 @@ const AddProduct = () => {
   const newPostForm = () => (
     <form className="mb-3" onSubmit={clickSubmit}>
       <h4>Post Photo</h4>
-
-      <div className='"form-group'>
+      <div className="form-group">
         <label className="btn btn-secondary">
           <input
             onChange={handleChange("photo")}
@@ -128,7 +125,6 @@ const AddProduct = () => {
         <label className="text-muted">Description</label>
         <textarea
           onChange={handleChange("description")}
-          type="text"
           className="form-control"
           value={description}
         />
@@ -188,6 +184,7 @@ const AddProduct = () => {
       {error}
     </div>
   );
+
   const showSuccess = () => (
     <div
       className="alert alert-info"
@@ -198,19 +195,22 @@ const AddProduct = () => {
   );
 
   const showLoading = () =>
-    loading && <div className="alert alert-success">Loading...</div>;
+    loading && (
+      <div className="alert alert-success">
+        <h2>Loading...</h2>
+      </div>
+    );
 
   return (
     <Layout
       title="Add a new product"
-      description={`Welcome ${user.name}, ready to add a new product?`}
-      className="container-fluid"
+      description={`G'day ${user.name}, ready to add a new product?`}
     >
       <div className="row">
-        <div className="col-8 offset-md-2">
+        <div className="col-md-8 offset-md-2">
           {showLoading()}
-          {showError()}
           {showSuccess()}
+          {showError()}
           {newPostForm()}
         </div>
       </div>

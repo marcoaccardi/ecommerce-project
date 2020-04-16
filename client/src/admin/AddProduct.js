@@ -12,14 +12,16 @@ const AddProduct = () => {
     categories: [],
     category: "",
     shipping: "",
+    quantity: "",
     photo: "",
     loading: false,
     error: "",
-    // createProduct: "",
+    createdProduct: "",
     redirectProfile: false,
     formData: "",
   });
 
+  const { user, token } = isAuthenticated();
   const {
     name,
     description,
@@ -31,20 +33,25 @@ const AddProduct = () => {
     photo,
     loading,
     error,
-    // createProduct,
+    createdProduct,
     redirectProfile,
     formData,
   } = values;
-
-  const { user, token } = isAuthenticated();
 
   //load categories and set form data
   const init = () => {
     getCategories().then((data) => {
       if (data.error) {
-        setValues({ ...values, error: data.error });
+        setValues({
+          ...values,
+          error: data.error,
+        });
       } else {
-        setValues({ ...values, categories: data, formData: new FormData() });
+        setValues({
+          ...values,
+          categories: data,
+          formData: new FormData(),
+        });
       }
     });
   };
@@ -73,7 +80,10 @@ const AddProduct = () => {
 
     createProduct(user._id, token, formData).then((data) => {
       if (data.error) {
-        setValues({ ...values, error: data.error });
+        setValues({
+          ...values,
+          error: data.error,
+        });
       } else {
         setValues({
           ...values,
@@ -170,6 +180,26 @@ const AddProduct = () => {
     </form>
   );
 
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+  const showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: createdProduct ? "" : "none" }}
+    >
+      <h2>{`${createdProduct}`} is created</h2>
+    </div>
+  );
+
+  const showLoading = () =>
+    loading && <div className="alert alert-success">Loading...</div>;
+
   return (
     <Layout
       title="Add a new product"
@@ -177,7 +207,12 @@ const AddProduct = () => {
       className="container-fluid"
     >
       <div className="row">
-        <div className="col-8 offset-md-2">{newPostForm()}</div>
+        <div className="col-8 offset-md-2">
+          {showLoading()}
+          {showError()}
+          {showSuccess()}
+          {newPostForm()}
+        </div>
       </div>
     </Layout>
   );

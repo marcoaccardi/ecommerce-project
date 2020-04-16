@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import { createProduct } from "./apiAdmin";
 
 const AddProduct = () => {
-  const { user, token } = isAuthenticated();
-
   const [values, setValues] = useState({
     name: "",
     description: "",
@@ -17,7 +15,7 @@ const AddProduct = () => {
     photo: "",
     loading: false,
     error: "",
-    createProduct: "",
+    // createProduct: "",
     redirectProfile: false,
     formData: "",
   });
@@ -33,11 +31,12 @@ const AddProduct = () => {
     photo,
     loading,
     error,
-    createProduct,
+    // createProduct,
     redirectProfile,
     formData,
   } = values;
 
+  const { user, token } = isAuthenticated();
   // setup formData webAPI
   useEffect(() => {
     setValues({ ...values, formData: new FormData() });
@@ -46,11 +45,36 @@ const AddProduct = () => {
   const handleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
-    setValues({ ...values, [name]: value });
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
 
   const clickSubmit = (event) => {
-    //
+    event.preventDefault();
+    setValues({
+      ...values,
+      error: "",
+      loading: true,
+    });
+
+    createProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          description: "",
+          photo: "",
+          price: "",
+          quantity: "",
+          loading: false,
+          createProduct: data.name,
+        });
+      }
+    });
   };
 
   const newPostForm = () => (
@@ -102,6 +126,7 @@ const AddProduct = () => {
         <label className="text-muted">Category</label>
         <select onChange={handleChange("category")} className="form-control">
           <option value="5e91a3b9a557772c334c975d">React</option>
+          <option value="5e91a3b9a557772c334c975d">PHP</option>
         </select>
       </div>
 

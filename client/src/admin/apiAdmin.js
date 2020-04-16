@@ -2,7 +2,7 @@ import { API } from "../config";
 
 const createCategory = (userId, token, category) => {
   console.log(userId);
-  return fetch(`${API}/category/create/:${userId}`, {
+  return fetch(`${API}/category/create/${userId}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -21,7 +21,7 @@ const createCategory = (userId, token, category) => {
 
 const createProduct = (userId, token, product) => {
   console.log(userId);
-  return fetch(`${API}/Product/create/:${userId}`, {
+  return fetch(`${API}/Product/create/${userId}`, {
     method: "POST",
     headers: {
       Accept: "application/json",

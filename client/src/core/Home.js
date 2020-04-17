@@ -3,39 +3,40 @@ import { Layout } from "./Layout";
 import { getProducts } from "./apiCore";
 
 const Home = () => {
-  const [productBySell, setProductBySell] = useState([]);
-  const [productByArrival, setProductByArrival] = useState([]);
+  const [productsBySell, setProductsBySell] = useState([]);
+  const [productsByArrival, setProductsByArrival] = useState([]);
   const [error, setError] = useState(false);
 
-  const loadProductBySell = () => {
+  const loadProductsBySell = () => {
     getProducts("sold").then((data) => {
-      // console.log(data);
+      console.log(data.error);
       if (data.error) {
         setError(data.error);
       } else {
-        setProductBySell(data);
+        setProductsBySell(data);
       }
     });
   };
-  const loadProductByArrival = () => {
+  const loadProductsByArrival = () => {
     getProducts("createdAt").then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
-        setProductByArrival(data);
+        setProductsByArrival(data);
       }
     });
   };
 
   useEffect(() => {
-    loadProductByArrival();
-    loadProductBySell();
-  });
+    loadProductsByArrival();
+    loadProductsBySell();
+  }, []);
 
   return (
     <Layout title="Home Page" description="Node React e-commerce App">
-      {JSON.stringify(productByArrival)}
-      {JSON.stringify(productBySell)}
+      {JSON.stringify(productsByArrival)}
+      <hr />
+      {JSON.stringify(productsBySell)}
     </Layout>
   );
 };

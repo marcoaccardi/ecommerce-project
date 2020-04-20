@@ -35,6 +35,22 @@ const Shop = () => {
     const newFilters = { ...myFilters };
     newFilters.filters[filterBy] = filters;
     setMyFilters(newFilters);
+    if (filterBy == "price") {
+      let priceValues = handlePrice(filters);
+      newFilters.filters[filterBy] = priceValues;
+    }
+    setMyFilters(newFilters);
+  };
+  const handlePrice = (value) => {
+    const data = prices;
+    let array = [];
+    for (let key in data) {
+      if (data[key]._id === parseInt(value)) {
+        array = data[key].array;
+      }
+    }
+
+    return array;
   };
 
   return (

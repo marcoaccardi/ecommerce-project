@@ -17,7 +17,7 @@ const Shop = () => {
   const [error, setError] = useState(false);
   const [limit, setLimit] = useState(6);
   const [skip, setSkip] = useState(0);
-  const [filteredResults, setFilteredResults] = useState(0);
+  const [filteredResults, setFilteredResults] = useState([]);
 
   const init = () => {
     getCategories().then((data) => {
@@ -42,13 +42,14 @@ const Shop = () => {
 
   useEffect(() => {
     init();
+    loadFilteredResults(skip, limit, myFilters.filters);
   }, []);
 
   const handleFilters = (filters, filterBy) => {
     // console.log("SHOP", filters, filterBy);
     const newFilters = { ...myFilters };
     newFilters.filters[filterBy] = filters;
-    setMyFilters(newFilters);
+
     if (filterBy === "price") {
       let priceValues = handlePrice(filters);
       newFilters.filters[filterBy] = priceValues;
@@ -56,22 +57,23 @@ const Shop = () => {
     loadFilteredResults(myFilters.filters);
     setMyFilters(newFilters);
   };
+
   const handlePrice = (value) => {
     const data = prices;
     let array = [];
+
     for (let key in data) {
       if (data[key]._id === parseInt(value)) {
         array = data[key].array;
       }
     }
-
     return array;
   };
 
   return (
     <Layout
-      title="Shop"
-      description="Search and find book of your choice"
+      title="Shop Page"
+      description="Search and find books of your choice"
       className="container-fluid"
     >
       <div className="row">
@@ -83,6 +85,7 @@ const Shop = () => {
               handleFilters={(filters) => handleFilters(filters, "category")}
             />
           </ul>
+
           <h4>Filter by price range</h4>
           <div>
             <RadioBox
@@ -91,13 +94,12 @@ const Shop = () => {
             />
           </div>
         </div>
+
         <div className="col-8">
           <h2 className="mb-4">Products</h2>
           <div className="row">
-            {filteredResults.map((product, index) => (
-              <div key={index} className="col-6 mb-3">
-                <Card product={product} />
-              </div>
+            {filteredResults.map((product, i) => (
+              <Card key={i} product={product} />
             ))}
           </div>
         </div>
